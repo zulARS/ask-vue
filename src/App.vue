@@ -1,26 +1,51 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <SideDisplay/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import { provide } from 'vue';
+import SideDisplay from './components/sideDisplay.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    SideDisplay
+  },
+  setup(){
+
+    return{
+    }
+
+   
+  } 
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Varela Round", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  scroll-behavior: smooth;
+  text-decoration: none;
+}
+
+#app{
+  min-height: 100vh;
+  display: flex;
+  animation: fadeIn 1.5s;
+}
+
+@keyframes fadeIn {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+
 }
 </style>
