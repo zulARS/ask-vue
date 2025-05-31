@@ -147,8 +147,7 @@ const askGemini = async () => {
 }
 
 .result{
-    /* margin-bottom: 50px; */
-    padding: 10px;
+    padding: 12px;
 }
 
 .display{
