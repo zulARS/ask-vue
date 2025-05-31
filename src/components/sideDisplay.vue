@@ -34,7 +34,9 @@
         <div v-show="loading" class="searching"><img src="../assets/searching.gif" width="120px" ></div>
         <div v-show="isProcess" v-if="response" class="mt-4 bg-gray-100 p-4 rounded whitespace-pre-wrap">
             <div class="display-answer">
-                    <div v-for="(item, index) in arrResults" :key="index" class="result" :id="`${index}`">
+                    <div v-for="(item, index) in arrResults" :key="index" class="result"
+                    :id="item.id"             
+                    >
                     <div class="title">{{ item.title }}</div> 
                     <div class="context">{{ item.context }}</div>
                 </div>
@@ -59,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, nextTick } from 'vue';
 import sideBar from './sideBar.vue';
 import { callGemini } from '../components/services/geminiService';
 
@@ -73,6 +75,8 @@ const error = ref('');
 const typing = ref('')
 // const results = ref([])
 const arrResults = reactive([])
+let counter = 0
+// const itemRefs = {}
 
 const loading = ref(false);
 const isDisplay = ref(true)
@@ -105,16 +109,22 @@ const askGemini = async () => {
            
     }, 2); // typing speed in ms
 
-    // if(answers.value.trim() !== ''){
-    //         results.value.push(answers.value.trim())     
-    // }
 
     if(currentPrompt.value.trim() !== ''){
             archievePrompt.value.push(currentPrompt.value.trim())     
     }
 
     if(answers.value.trim() !== ''){
-            arrResults.push({title: recentPrompt.value, context: answers.value})   
+        const newTitle = recentPrompt.value
+        arrResults.push({id: counter, title: newTitle, context: answers.value})   
+        let newId = counter++
+        console.log(arrResults)
+        await nextTick()
+
+        const el = document.getElementById(`${newId}`)
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
     }
 
   } catch (err) {
@@ -125,6 +135,7 @@ const askGemini = async () => {
   }
 
 };
+
 </script>
 
 <style scoped>
@@ -136,7 +147,9 @@ const askGemini = async () => {
 }
 
 .result{
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
+    padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
 .display{
